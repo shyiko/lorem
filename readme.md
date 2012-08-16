@@ -12,7 +12,7 @@ In a nutshell, lorem does the following:
 # Why?
 
 One of the prototypes I worked on (single-page application with dozens of nested views wired up with require.js and
-knockout.js) had lot of filler text all over the pages (some of if was retrieved from Node.js/Express-based server).
+knockout.js) had lot of filler text all over the pages (some of it was retrieved from Node.js/Express-based server).
 Everything was great up to the point when amount of such payload became unbearable making it hard to navigate through
 the source code. As the result, github got lorem and I got rid of the mess inside HTML/template files ^_^.
 
