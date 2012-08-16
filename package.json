@@ -1,0 +1,37 @@
+{
+    "name": "lorem",
+    "description": "JQuery-based Lorem Ipsum provider",
+    "version": "0.1.0",
+    "homepage": "https://github.com/shyiko/lorem",
+    "author": {
+        "name": "Stanley Shyiko",
+        "email": "stanley.shyiko@gmail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/shyiko/lorem.git"
+    },
+    "bugs": {
+        "url": "https://github.com/shyiko/lorem/issues"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/shyiko/lorem/blob/master/mit.license"
+        }
+    ],
+    "main": "src/library/lorem",
+    "engines": {
+        "node": ">= 0.6.0"
+    },
+    "scripts": {
+        "test": "grunt test"
+    },
+    "dependencies": {
+        "jquery": "~1.7.2"
+    },
+    "devDependencies": {
+        "grunt": "~0.3.11"
+    },
+    "keywords": ["lorem", "ipsum", "filler", "placeholder", "jquery"]
+}
