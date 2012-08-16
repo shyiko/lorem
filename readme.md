@@ -46,7 +46,7 @@ Install the module with: `npm install lorem`
 
     <lorem class prefix>_p[<number>[_<minimum number of sentences>[x<maximum number of sentences>]]]
     <lorem class prefix>_s[<number>[_<minimum number of words>[x<maximum number of words>]]]
-    <lorem class prefix>_w<number>
+    <lorem class prefix>_w[<number>]
     <lorem class prefix>_i<width>[x<height>]
 
     Examples (assuming default options):

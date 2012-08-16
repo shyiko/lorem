@@ -1,28 +1,4 @@
 /**
- * Function.prototype.bind polyfill
- * @see https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/bind
- */
-if (!Function.prototype.bind) {
-    Function.prototype.bind = function (self) {
-        if (typeof this !== "function") {
-            throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
-        }
-        var args = Array.prototype.slice.call(arguments, 1),
-            fn = this,
-            NOP = function () {},
-            result = function () {
-                return fn.apply(this instanceof NOP && self ? this : self,
-                    args.concat(Array.prototype.slice.call(arguments)));
-            };
-        NOP.prototype = this.prototype;
-        result.prototype = new NOP();
-        return result;
-    };
-}
-
-// todo: remove bind usage in order to remove bind polyfill
-
-/**
  * Lorem - 0.1.0 - JQuery-based Lorem Ipsum provider
  *
  * https://github.com/shyiko/lorem
@@ -133,34 +109,6 @@ if (!Function.prototype.bind) {
         ).concat(stringAfter);
     }
 
-    /**
-     * @tokens {Array} array of tokens
-     * @return {String} randomly-chosen token
-     */
-    function token(tokens) {
-        return tokens[between(0, tokens.length - 1)];
-    }
-
-    /**
-     * @param {Function} tokenFn token function
-     * @param {Number} minNumberOfWords minimum number of words in each sentence
-     * @param {Number} maxNumberOfWords maximum number of words in each sentence
-     * @return {String} sentence (ending with .)
-     */
-    function sentence(tokenFn, minNumberOfWords, maxNumberOfWords) {
-        return capitalize(array(tokenFn, between(minNumberOfWords, maxNumberOfWords)).join(' ').concat('.'));
-    }
-
-    /**
-     * @param {Function} sentenceFn sentence function
-     * @param {Number} minNumberOfSentences minimum number of sentences in each paragraph
-     * @param {Number} maxNumberOfSentences maximum number of sentences in each paragraph
-     * @return {String} paragraph
-     */
-    function paragraph(sentenceFn, minNumberOfSentences, maxNumberOfSentences) {
-        return array(sentenceFn, between(minNumberOfSentences, maxNumberOfSentences)).join(' ');
-    }
-
     var defaults = {
         text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ' +
             'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ' +
@@ -226,24 +174,37 @@ if (!Function.prototype.bind) {
         }
         var op = options.numberOfSentencesPerParagraph,
             os = options.numberOfWordsPerSentence,
-            tokenFn = token.bind(this, options._tokens),
+            tokenFn = (function() {
+                var tokens = options._tokens, numberOfTokens = tokens.length;
+                return function() {
+                    return tokens[between(0, numberOfTokens - 1)];
+                };
+            }()),
             suffix = cls.substr(options.prefix.length),
             result = { attributes: {} };
         switch(suffix[0]) {
-            case 'p': // paragraph<number>[_<minimum number of sentences>[x<maximum number of sentences>]]
+            case 'p': // paragraph p[<number>[_<minimum number of sentences>[x<maximum number of sentences>]]]
                 var numberOfParagraphs = extractNumber(suffix, 1),
                     pd = extractExtension(suffix, op.min, op.max),
-                    sentenceFn = sentence.bind(this, tokenFn, os.min, os.max),
-                    paragraphFn = paragraph.bind(this, sentenceFn, pd.left, pd.right);
+                    sentenceFnP = function() {
+                        return capitalize(array(tokenFn, between(os.min, os.max)).join(' ')
+                            .concat('.'));
+                    },
+                    paragraphFn = function() {
+                        return array(sentenceFnP, between(pd.left, pd.right)).join(' ');
+                    };
                 result.html = join(array(paragraphFn, numberOfParagraphs), '<p>', '</p>');
                 break;
-            case 's': // sentence<number>[_<minimum number of words>[x<maximum number of words>]]
+            case 's': // sentence s[<number>[_<minimum number of words>[x<maximum number of words>]]]
                 var numberOfSentences = extractNumber(suffix, 1),
-                    sd = extractExtension(suffix, os.min, os.max);
-                result.html = array(sentence.bind(this, tokenFn, sd.left, sd.right),
-                    numberOfSentences).join(' ');
+                    sd = extractExtension(suffix, os.min, os.max),
+                    sentenceFnS = function() {
+                        return capitalize(array(tokenFn, between(sd.left, sd.right)).join(' ')
+                            .concat('.'));
+                    };
+                result.html = array(sentenceFnS, numberOfSentences).join(' ');
                 break;
-            case 'w': // word<number>
+            case 'w': // word w[<number>]
                 var numberOfWords = extractNumber(suffix, 1);
                 result.html = array(tokenFn, numberOfWords).join(' ');
                 break;
