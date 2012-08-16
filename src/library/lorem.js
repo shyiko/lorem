@@ -285,7 +285,7 @@
     $.fn.ipsum = function(options) {
         var o = mergeWithDefaultOnes(options);
         return this.each(function() {
-            var $this = $(this), $els = $('[class^="' + o.prefix + '"]', $this);
+            var $this = $(this), $els = $('[class*="' + o.prefix + '"]', $this);
             applyIpsumToElement($this, o);
             $els.each(function(index, el) {
                 applyIpsumToElement($(el), o);
