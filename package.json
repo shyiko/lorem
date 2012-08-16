@@ -1,6 +1,6 @@
 {
     "name": "lorem",
-    "description": "JQuery-based Lorem Ipsum provider",
+    "description": "Filler text generator compatible with Node.js, Require.js and plain-old &lt;script/&gt;.",
     "version": "0.2.0",
     "homepage": "https://github.com/shyiko/lorem",
     "author": {
