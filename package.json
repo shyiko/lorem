@@ -1,7 +1,7 @@
 {
     "name": "lorem",
     "description": "JQuery-based Lorem Ipsum provider",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "homepage": "https://github.com/shyiko/lorem",
     "author": {
         "name": "Stanley Shyiko",
@@ -24,7 +24,7 @@
     "engines": {
         "node": ">= 0.6.0"
     },
-    "dependencies": {
+    "optionalDependencies": {
         "jquery": "~1.7.2"
     },
     "devDependencies": {

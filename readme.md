@@ -1,6 +1,6 @@
 # lorem
 
-JQuery-based placeholder (filler) text provider compatible with Node.js, Require.js and plain-old &lt;script/&gt;.
+Filler text generator compatible with Node.js, Require.js and plain-old &lt;script/&gt;.
 
 ## Getting Started
 

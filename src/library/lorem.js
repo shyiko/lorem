@@ -1,5 +1,5 @@
 /**
- * Lorem - 0.1.0 - JQuery-based Lorem Ipsum provider
+ * Lorem - 0.2.0 - JQuery-based Lorem Ipsum provider
  *
  * https://github.com/shyiko/lorem
  *
@@ -8,7 +8,7 @@
  */
 (function (fn) {
     if (typeof require === 'function' && typeof exports === 'object' && typeof module === 'object') {
-        fn(require('jquery'), exports); // node.js
+        var $; try { $ = require('jquery'); } catch(ex) { } fn($, exports); // node.js
     } else if (typeof define === 'function' && define['amd']) {
         define(['jquery', 'exports'], fn); // amd
     } else {
@@ -141,11 +141,19 @@
      * @return {Object} default options overridden with provided ones
      */
     function mergeWithDefaultOnes(options) {
-        var o = $.extend({}, defaults, options);
-        if (options && options.hasOwnProperty('text')) {
-            o._tokens = tokenize(o.text, o.wordDelimiter);
-            if (o._tokens.length < 1) {
-                throw new Error('Tokenization of text must provide at least one token');
+        var o = {};
+        for (var dkey in defaults) {
+            o[dkey] = defaults[dkey];
+        }
+        if (options) {
+            for (var okey in options) {
+                o[okey] = options[okey];
+            }
+            if (options.hasOwnProperty('text')) {
+                o._tokens = tokenize(o.text, o.wordDelimiter);
+                if (o._tokens.length < 1) {
+                    throw new Error('Tokenization of text must provide at least one token');
+                }
             }
         }
         return o;
@@ -282,15 +290,17 @@
      * @param {Object} options overrides for defaults. optional
      * @return {Object} jquery objects for chaining
      */
-    $.fn.ipsum = function(options) {
-        var o = mergeWithDefaultOnes(options);
-        return this.each(function() {
-            var $this = $(this), $els = $('[class*="' + o.prefix + '"]', $this);
-            applyIpsumToElement($this, o);
-            $els.each(function(index, el) {
-                applyIpsumToElement($(el), o);
+    if ($) {
+        $.fn.ipsum = function(options) {
+            var o = mergeWithDefaultOnes(options);
+            return this.each(function() {
+                var $this = $(this), $els = $('[class*="' + o.prefix + '"]', $this);
+                applyIpsumToElement($this, o);
+                $els.each(function(index, el) {
+                    applyIpsumToElement($(el), o);
+                });
             });
-        });
-    };
+        };
+    }
 }));
 
