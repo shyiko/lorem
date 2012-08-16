@@ -75,11 +75,11 @@ Install the module with: `npm install lorem`
 
     Defaults can be overridden either globally:
 
-    lorem.overrideDefaults(options) // e.g. lorem.overrideDefaults({ prefix: 'custom_prefix_' })
+        lorem.overrideDefaults(options) // e.g. lorem.overrideDefaults({ prefix: 'custom_prefix_' })
 
     or per-request:
 
-    $('container').ipsum({ prefix: 'custom_prefix_' }); // lorem.ipsum(className, options) works as well
+        $('container').ipsum({ prefix: 'custom_prefix_' }); // lorem.ipsum(className, options) works as well
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style.<br/>
