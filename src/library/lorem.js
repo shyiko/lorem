@@ -22,6 +22,14 @@ if (!Function.prototype.bind) {
 
 // todo: remove bind usage in order to remove bind polyfill
 
+/**
+ * Lorem - 0.1.0 - JQuery-based Lorem Ipsum provider
+ *
+ * https://github.com/shyiko/lorem
+ *
+ * Copyright (c) 2012 Stanley Shyiko
+ * Licensed under the MIT license.
+ */
 (function (fn) {
     if (typeof require === 'function' && typeof exports === 'object' && typeof module === 'object') {
         fn(require('jquery'), exports); // node.js
@@ -33,8 +41,8 @@ if (!Function.prototype.bind) {
 }(function ($, exports) {
 
     /**
-     * @param text text
-     * @param delimiter delimiter
+     * @param {String} text text
+     * @param {*} delimiter delimiter
      * @return {Array} array of tokens
      */
     function tokenize(text, delimiter) {
@@ -49,7 +57,7 @@ if (!Function.prototype.bind) {
     }
 
     /**
-     * @param string string
+     * @param {String} string string to capitalize
      * @return {String} original string with first letter capitalized
      */
     function capitalize(string) {
@@ -57,8 +65,8 @@ if (!Function.prototype.bind) {
     }
 
     /**
-     * @param min minimum
-     * @param max maximum
+     * @param {Number} min lower bound
+     * @param {Number} max higher bound
      * @return {Number} number between min and max
      */
     function between(min, max){
@@ -66,8 +74,8 @@ if (!Function.prototype.bind) {
     }
 
     /**
-     * @param fn function
-     * @param length length of target array
+     * @param {Function} fn function
+     * @param {Number} length length of target array
      * @return {Array} array where each element was obtained by calling fn
      */
     function array(fn, length) {
@@ -79,8 +87,8 @@ if (!Function.prototype.bind) {
     }
 
     /**
-     * @param string string to parse
-     * @param defaultValue value to return if result is NaN or less than 1
+     * @param {String} string string to parse
+     * @param {*} defaultValue value to return if result is NaN or less than 1
      * @return {Number} substring(1, index of '_' (if any))
      */
     function extractNumber(string, defaultValue) {
@@ -93,9 +101,9 @@ if (!Function.prototype.bind) {
     }
 
     /**
-     * @param string string to parse
-     * @param defaultValueOnTheLeft {this value}>x{indifferent}
-     * @param defaultValueOnTheRight {indifferent}x{this value}
+     * @param {String} string string to parse
+     * @param {*} defaultValueOnTheLeft {this value}>x{indifferent}
+     * @param {*} defaultValueOnTheRight {indifferent}x{this value}
      * @return {Object} {left: valueOnTheLeft, right: valueOnTheRight}
      */
     function extractExtension(string, defaultValueOnTheLeft, defaultValueOnTheRight) {
@@ -114,9 +122,9 @@ if (!Function.prototype.bind) {
     }
 
     /**
-     * @param array array of strings
-     * @param stringBefore string to prepped before each array element
-     * @param stringAfter string to append after each array element
+     * @param {Array} array array of strings
+     * @param {String} stringBefore string to prepped before each array element
+     * @param {String} stringAfter string to append after each array element
      * @return {String} stringBefore + array.join(stringAfter + stringBefore) + stringAfter
      */
     function join(array, stringBefore, stringAfter) {
@@ -125,7 +133,6 @@ if (!Function.prototype.bind) {
         ).concat(stringAfter);
     }
 
-    // todo: assert tokens length
     /**
      * @tokens {Array} array of tokens
      * @return {String} randomly-chosen token
@@ -154,9 +161,68 @@ if (!Function.prototype.bind) {
         return array(sentenceFn, between(minNumberOfSentences, maxNumberOfSentences)).join(' ');
     }
 
+    var defaults = {
+        text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ' +
+            'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ' +
+            'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ' +
+            'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ' +
+            'At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, ' +
+            'quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, ' +
+            'qui officia deserunt mollitia animi, id est laborum et dolorum fuga. ' +
+            'Et harum quidem rerum facilis est et expedita distinctio. ' +
+            'Nam libero tempore, cum soluta nobis est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat, ' +
+            'facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.',
+        wordDelimiter: /\s|[,.]/,
+        numberOfSentencesPerParagraph: {min: 4, max: 7},
+        numberOfWordsPerSentence: {min: 4, max: 9},
+        imageURL: 'http://placehold.it/${w}x${h}',
+        /**
+         * {String} class prefix to apply lorem to
+         */
+        prefix: 'lorem_',
+        /**
+         * {String} class to add to all lorem-recognized elements. optional
+         */
+        markerClass: 'lorem-marker'
+    };
+
+    defaults._tokens = tokenize(defaults.text, defaults.wordDelimiter);
+
+    /**
+     * @param {Object} options options. can be undefined
+     * @return {Object} default options overridden with provided ones
+     */
+    function mergeWithDefaultOnes(options) {
+        var o = $.extend({}, defaults, options);
+        if (options && options.hasOwnProperty('text')) {
+            o._tokens = tokenize(o.text, o.wordDelimiter);
+            if (o._tokens.length < 1) {
+                throw new Error('Tokenization of text must provide at least one token');
+            }
+        }
+        return o;
+    }
+
+    /**
+     * @param {Object} options options to replace default ones
+     */
+    exports.overrideDefaults = function(options) {
+        for (var key in options) {
+            defaults[key] = options[key];
+        }
+        if (options.hasOwnProperty('text')) {
+            defaults._tokens = tokenize(options.text, defaults.wordDelimiter);
+        }
+    };
+
+    /**
+     * @param {String} cls class name
+     * @param {Object} options options
+     * @return {*} undefined if cls doesn't start with lorem prefix, {html: value, attributes: {...}} otherwise
+     */
     function ipsum(cls, options) {
         if (cls.substr(0, options.prefix.length) !== options.prefix) {
-            return; // return undefined if cls doesn't start with lorem prefix
+            return; // cls doesn't start with lorem prefix
         }
         var op = options.numberOfSentencesPerParagraph,
             os = options.numberOfWordsPerSentence,
@@ -195,65 +261,29 @@ if (!Function.prototype.bind) {
         return result;
     }
 
-    var defaults = {
-        text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ' +
-            'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ' +
-            'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ' +
-            'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ' +
-            'At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, ' +
-            'quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, ' +
-            'qui officia deserunt mollitia animi, id est laborum et dolorum fuga. ' +
-            'Et harum quidem rerum facilis est et expedita distinctio. ' +
-            'Nam libero tempore, cum soluta nobis est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat, ' +
-            'facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.',
-        wordDelimiter: /\s|[,.]/,
-        numberOfSentencesPerParagraph: {min: 4, max: 7},
-        numberOfWordsPerSentence: {min: 4, max: 9},
-        imageURL: 'http://placehold.it/${w}x${h}',
-        /**
-         * {String} class prefix to apply lorem to
-         */
-        prefix: 'lorem_',
-        /**
-         * {String} class to add to all lorem-recognized elements. optional
-         */
-        markerClass: 'lorem-marker'
-    };
-
-    defaults._tokens = tokenize(defaults.text, defaults.wordDelimiter);
-
-    function oclone(options) {
-        var o = $.extend({}, defaults, options);
-        if (options && options.hasOwnProperty('text')) {
-            o._tokens = tokenize(o.text, o.wordDelimiter);
-        }
-        return o;
-    }
-
-    exports.overrideDefaults = function(options) {
-        for (var key in options) {
-            defaults[key] = options[key];
-        }
-        if (options.hasOwnProperty('text')) {
-            defaults._tokens = tokenize(options.text, defaults.wordDelimiter);
-        }
-    };
-
     /**
      * @param {String} cls class name
      * @param {Object} options overrides for defaults. optional
-     * @return {*} undefined if cls doesn't start with lorem prefix, {html: value, attributes: {...}} otherwise
+     * @return {String} generated text/html
      */
     exports.ipsum = function(cls, options) {
-        return ipsum(cls, oclone(options));
+        var holder = ipsum(cls, mergeWithDefaultOnes(options));
+        if (holder) {
+            if (holder.attributes.src) {
+                return holder.attributes.src;
+            }
+            if (holder.html) {
+                return holder.html;
+            }
+        }
     };
 
     /**
      * @param $el jquery element
      * @param prefix class prefix
-     * @return {String} undefined if $el has no class which starts with a prefix, first class name otherwise
+     * @return {String} undefined if $el has no class which starts with a prefix, class name otherwise
      */
-    function fcls($el, prefix) {
+    function findFirstClassWithAPrefix($el, prefix) {
         var classes = $el.attr('class');
         if (classes) {
             classes = classes.split(' ');
@@ -270,15 +300,15 @@ if (!Function.prototype.bind) {
      * @param {Object} $el jquery element
      * @param {Object} options
      */
-    function apply($el, options) {
-        var cls = fcls($el, options.prefix);
+    function applyIpsumToElement($el, options) {
+        var cls = findFirstClassWithAPrefix($el, options.prefix);
         if (cls) {
             var lorem = ipsum(cls, options);
             if (lorem.html) {
                 $el.html(lorem.html);
             }
-            if (lorem.src) {
-                $el.attr({src: lorem.src});
+            if (lorem.attributes.src) {
+                $el.attr({src: lorem.attributes.src});
             }
             if (options.markerClass && !$el.hasClass(options.markerClass)) {
                 $el.addClass(options.markerClass);
@@ -292,12 +322,12 @@ if (!Function.prototype.bind) {
      * @return {Object} jquery objects for chaining
      */
     $.fn.ipsum = function(options) {
-        var o = oclone(options);
+        var o = mergeWithDefaultOnes(options);
         return this.each(function() {
             var $this = $(this), $els = $('[class^="' + o.prefix + '"]', $this);
-            apply($this, o);
+            applyIpsumToElement($this, o);
             $els.each(function(index, el) {
-                apply($(el), o);
+                applyIpsumToElement($(el), o);
             });
         });
     };

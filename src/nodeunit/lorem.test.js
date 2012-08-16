@@ -1,11 +1,8 @@
 var lorem = require('../library/lorem.js');
 
-function testIpsum(test, cls, html, attributes) {
-    attributes = attributes || {};
-    test.expect(2);
-    var value = lorem.ipsum(cls);
-    test.equal(value.html, html);
-    test.deepEqual(value.attributes, attributes);
+function testIpsum(test, cls, html) {
+    test.expect(1);
+    test.equal(lorem.ipsum(cls), html);
     test.done();
 }
 
@@ -55,7 +52,7 @@ exports['ipsum'] = {
             'Deserunt et impedit repellendus lorem et nisi. In et et deserunt et impedit. Lorem et nisi velit in et et deserunt et.</p>');
     },
     'lorem_i1x100': function(test) {
-        testIpsum(test, 'lorem_i1x100', undefined, { src: 'http://placehold.it/1x100' });
+        testIpsum(test, 'lorem_i1x100', 'http://placehold.it/1x100');
     },
     'lorem_unsupported_suffix': function(test) {
         testIpsum(test, 'lorem_');

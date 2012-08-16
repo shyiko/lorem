@@ -20,7 +20,7 @@ JQuery-based placeholder (filler) text provider compatible with Node.js, Require
     <script>
         (function($) {
             $('#container').ipsum();
-            $(document.body).append('Generated not using JQuery plugin: "' + lorem.ipsum('lorem_w').html + '"');
+            $(document.body).append('Generated not using JQuery plugin: "' + lorem.ipsum('lorem_w') + '"');
         }(jQuery));
     </script>
 
