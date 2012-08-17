@@ -70,7 +70,7 @@ Install the module with: `npm install lorem`
     lorem_s3 # generates three sentences
     lorem_w # generates single word, same as lorem_w1
     lorem_w4 # generates four words
-    lorem_i300x100 # generates link to 300x100 image
+    lorem_i300x100 # generates 300x100 image
 
 ### Options
 
@@ -83,6 +83,8 @@ Install the module with: `npm install lorem`
         numberOfSentencesPerParagraph: {min: 4, max: 7},
         numberOfWordsPerSentence: {min: 4, max: 9},
         imageURL: 'http://placehold.it/${w}x${h}',
+        offlineImage: 'data:image/gif;base64,R0lGODdhAQABAIABAMzMzP///ywAAAAAAQABAAACAkQBADs=',
+        useOfflineImage: false, // enabling this option will result in offlineImage being used instead of imageURL
         prefix: 'lorem_',
         markerClass: 'lorem-marker' // optional. added to all lorem-classified DOM elements
     }
