@@ -137,38 +137,49 @@
     defaults._tokens = tokenize(defaults.text, defaults.wordDelimiter);
 
     /**
-     * @param {Object} options options. can be undefined
-     * @return {Object} default options overridden with provided ones
+     * @return {Object} copy of lorem defaults
      */
-    function mergeWithDefaultOnes(options) {
+    exports.defaults = function() {
         var o = {};
         for (var dkey in defaults) {
             o[dkey] = defaults[dkey];
         }
-        if (options) {
-            for (var okey in options) {
-                o[okey] = options[okey];
+        return o;
+    };
+
+    /**
+     * @param {Object} options options. can be undefined
+     * @return {Object} default options overridden with provided ones
+     */
+    function mergeWithDefaultOnes(options) {
+        var o = exports.defaults();
+        mergePropertiesIn(o, options);
+        return o;
+    }
+
+    /**
+     * @param target destination object
+     * @param source object to copy properties from
+     */
+    function mergePropertiesIn(target, source) {
+        if (source) {
+            for (var okey in source) {
+                target[okey] = source[okey];
             }
-            if (options.hasOwnProperty('text')) {
-                o._tokens = tokenize(o.text, o.wordDelimiter);
-                if (o._tokens.length < 1) {
+            if (source.hasOwnProperty('text')) {
+                target._tokens = tokenize(target.text, target.wordDelimiter);
+                if (target._tokens.length < 1) {
                     throw new Error('Tokenization of text must provide at least one token');
                 }
             }
         }
-        return o;
     }
 
     /**
      * @param {Object} options options to replace default ones
      */
     exports.overrideDefaults = function(options) {
-        for (var key in options) {
-            defaults[key] = options[key];
-        }
-        if (options.hasOwnProperty('text')) {
-            defaults._tokens = tokenize(options.text, defaults.wordDelimiter);
-        }
+        mergePropertiesIn(defaults, options);
     };
 
     /**

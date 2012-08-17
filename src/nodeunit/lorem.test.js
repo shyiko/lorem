@@ -1,8 +1,8 @@
 var lorem = require('../library/lorem.js');
 
-function testIpsum(test, cls, html) {
+function testIpsum(test, cls, html, options) {
     test.expect(1);
-    test.equal(lorem.ipsum(cls), html);
+    test.equal(lorem.ipsum(cls, options), html);
     test.done();
 }
 
@@ -56,5 +56,32 @@ exports['ipsum'] = {
     },
     'lorem_unsupported_suffix': function(test) {
         testIpsum(test, 'lorem_');
+    },
+    'custom_lorem_w': function(test) {
+        testIpsum(test, 'custom_lorem_w');
+    },
+    'custom_lorem_w with prefix adjusted': function(test) {
+        testIpsum(test, 'custom_lorem_w', 'et', { prefix: 'custom_lorem_' });
+    },
+    'custom_lorem_w with text modified': function(test) {
+        testIpsum(test, 'lorem_w', 'a', { text: 'a b c' });
+    },
+    'lorem_w with overridden defaults (prefix)': function(test) {
+        var defaultPrefix = lorem.defaults().prefix;
+        try {
+            lorem.overrideDefaults({ prefix: 'custom_lorem_' });
+            testIpsum(test, 'custom_lorem_w', 'et');
+        } finally {
+            lorem.overrideDefaults({ prefix: defaultPrefix });
+        }
+    },
+    'lorem_w with overridden defaults (text)': function(test) {
+        var defaultText = lorem.defaults().text;
+        try {
+            lorem.overrideDefaults({ text: 'a b c' });
+            testIpsum(test, 'lorem_w', 'a');
+        } finally {
+            lorem.overrideDefaults({ text: defaultText });
+        }
     }
 };
