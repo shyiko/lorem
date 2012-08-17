@@ -1,5 +1,5 @@
 /**
- * Lorem - 0.2.0 - JQuery-based Lorem Ipsum provider
+ * Lorem - 0.3.0 - JQuery-based Lorem Ipsum provider
  *
  * https://github.com/shyiko/lorem
  *
@@ -124,6 +124,8 @@
         numberOfSentencesPerParagraph: {min: 4, max: 7},
         numberOfWordsPerSentence: {min: 4, max: 9},
         imageURL: 'http://placehold.it/${w}x${h}',
+        offlineImage: 'data:image/gif;base64,R0lGODdhAQABAIABAMzMzP///ywAAAAAAQABAAACAkQBADs=',
+        useOfflineImage: false,
         /**
          * {String} class prefix to apply lorem to
          */
@@ -233,8 +235,15 @@
                     var width = parseInt(suffix.substr(1, indexOfDelimiter), 10),
                         height = parseInt(suffix.substr(indexOfDelimiter + 1), 10);
                     if (!isNaN(width) && !isNaN(height)) {
-                        result.attributes.src = options.imageURL.
-                            replace('${w}', width).replace('${h}', height);
+                        var attrs = result.attributes;
+                        if (options.useOfflineImage) {
+                            attrs.src = options.offlineImage;
+                            attrs.width = width;
+                            attrs.height = height;
+                        } else {
+                            attrs.src = options.imageURL.
+                                replace('${w}', width).replace('${h}', height);
+                        }
                     }
                 }
         }
@@ -287,8 +296,8 @@
             if (lorem.html) {
                 $el.html(lorem.html);
             }
-            if (lorem.attributes.src) {
-                $el.attr({src: lorem.attributes.src});
+            if (!$.isEmptyObject(lorem.attributes)) {
+                $el.attr(lorem.attributes);
             }
             if (options.markerClass && !$el.hasClass(options.markerClass)) {
                 $el.addClass(options.markerClass);

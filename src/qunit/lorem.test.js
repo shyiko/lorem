@@ -10,6 +10,7 @@ test('jquery plugin - direct substitution on multiple classes', function() {
     $fixture.html('<p id="lorem_direct" class="lead lorem_s"></p>');
     $('#lorem_direct', $fixture).ipsum();
     ok($('#lorem_direct', $fixture).text().length > 0, 'lorem_w direct substitution failed');
+    equal($('.lead', $fixture).attr('id'), 'lorem_direct', 'lorem_w substitution lost non-lorem class during direct substitution');
 });
 
 test('jquery plugin - nested substitution', function() {
@@ -27,12 +28,22 @@ test('jquery plugin - nested substitution on multiple classes (lorem at the begi
     var $fixture = $('#qunit-fixture');
     $fixture.html('<div id="lorem_direct"><p class="lorem_s lead"></p></div>');
     $('#lorem_direct', $fixture).ipsum();
-    ok($('#lorem_direct', $fixture).text().length > 0, 'lorem_w direct substitution failed');
+    ok($('#lorem_direct', $fixture).text().length > 0, 'lorem_s nested substitution failed');
 });
 
 test('jquery plugin - nested substitution on multiple classes (lorem at the end)', function() {
     var $fixture = $('#qunit-fixture');
     $fixture.html('<div id="lorem_direct"><p class="lead lorem_s"></p></div>');
     $('#lorem_direct', $fixture).ipsum();
-    ok($('#lorem_direct', $fixture).text().length > 0, 'lorem_w direct substitution failed');
+    ok($('#lorem_direct', $fixture).text().length > 0, 'lorem_s nested substitution failed');
+});
+
+test('jquery plugin - offline image generation', function() {
+    var $fixture = $('#qunit-fixture');
+    $fixture.html('<img class="lorem_i300x100"/>');
+    $fixture.ipsum({ useOfflineImage: true });
+    var $img = $fixture.find('img');
+    equal($img.attr('width'), '300', 'offline image width assertion failed');
+    equal($img.attr('height'), '100', 'offline image height assertion failed');
+    equal($img.attr('src'), 'data:image/gif;base64,R0lGODdhAQABAIABAMzMzP///ywAAAAAAQABAAACAkQBADs=', 'offline image src assertion failed');
 });
