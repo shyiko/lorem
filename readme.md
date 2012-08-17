@@ -28,6 +28,8 @@ the source code. As the result, github got lorem and I got rid of the mess insid
         <div class="lorem_p2" style="background-color: black; color: white">
             <!-- expecting two paragraphs here -->
         </div>
+        <!-- expecting image below -->
+        <img class="lorem_i256x46"/>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="https://raw.github.com/shyiko/lorem/master/src/library/lorem.js"></script>
