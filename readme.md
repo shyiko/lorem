@@ -86,7 +86,7 @@ Install the module with: `npm install lorem`
         numberOfWordsPerSentence: {min: 4, max: 9},
         imageURL: 'http://placehold.it/${w}x${h}',
         offlineImage: 'data:image/gif;base64,R0lGODdhAQABAIABAMzMzP///ywAAAAAAQABAAACAkQBADs=',
-        useOfflineImage: false, // enabling this option will result in offlineImage being used instead of imageURL
+        useOfflineImage: false, // enabling this option will result in offlineImage being used instead of imageURL. Not supported under IE<8.
         prefix: 'lorem_',
         markerClass: 'lorem-marker' // optional. added to all lorem-classified DOM elements
     }
