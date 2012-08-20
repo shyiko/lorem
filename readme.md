@@ -59,13 +59,13 @@ Install the module with: `npm install lorem`
     <lorem class prefix>_i<width>[x<height>]
 
     Examples (assuming default options):
-    lorem_p # generates single paragraph, same as lorem_p1
-    lorem_p2 # generates two paragraphs
-    lorem_s # generates single sentence, same as lorem_s1
-    lorem_s3 # generates three sentences
-    lorem_w # generates single word, same as lorem_w1
-    lorem_w4 # generates four words
-    lorem_i300x100 # generates 300x100 image
+        lorem_p # single paragraph, same as lorem_p1
+        lorem_p2 # two paragraphs
+        lorem_s # single sentence, same as lorem_s1
+        lorem_s3 # three sentences
+        lorem_w # single word, same as lorem_w1
+        lorem_w4 # four words
+        lorem_i300x100 # 300x100 image
 
 ### Options
 
