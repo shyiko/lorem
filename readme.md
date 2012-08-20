@@ -1,4 +1,4 @@
-# lorem
+# lorem <a href="http://travis-ci.org/shyiko/lorem"><img src="https://secure.travis-ci.org/shyiko/lorem.png" alt="Build Status" style="max-width:100%;"></a>
 
 Filler text generator compatible with Node.js, Require.js and plain-old &lt;script/&gt;.<br/>
 
