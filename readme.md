@@ -9,13 +9,6 @@ In a nutshell, lorem does the following:
 - locates all tags (within $(selector)) with class attribute containing lorem_&lt;options&gt;
 - replaces html (src in case of &lt;img/&gt;) within such tags according to &lt;options&gt;
 
-# Why?
-
-One of the prototypes I worked on (single-page application with dozens of nested views wired up with require.js and
-knockout.js) had lot of filler text all over the pages (some of it was retrieved from Node.js/Express-based server).
-Everything was great up to the point when amount of such payload became unbearable making it hard to navigate through
-the source code. As the result, github got lorem and I got rid of the mess inside HTML/template files ^_^.
-
 ## Getting Started
 
 ### Plain-Old &lt;script/&gt;
@@ -98,6 +91,13 @@ Install the module with: `npm install lorem`
     or per-request:
 
         $('container').ipsum({ prefix: 'custom_prefix_' }); // lorem.ipsum(className, options) works as well
+
+## History
+
+One of the prototypes I worked on (single-page application with dozens of nested views wired up with require.js and
+knockout.js) had lot of filler text all over the pages (some of it was retrieved from Node.js/Express-based server).
+Everything was great up to the point when amount of such payload became unbearable making it hard to navigate through
+the source code. As the result, github got lorem and I got rid of the mess inside HTML/template files ^_^.
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style.<br/>
