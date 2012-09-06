@@ -1,7 +1,7 @@
 {
     "name": "lorem",
     "description": "Filler text generator compatible with Node.js, Require.js and plain-old &lt;script/&gt;.",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "homepage": "https://github.com/shyiko/lorem",
     "author": {
         "name": "Stanley Shyiko",

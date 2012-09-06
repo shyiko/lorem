@@ -47,3 +47,11 @@ test('jquery plugin - offline image generation', function() {
     equal($img.attr('height'), '100', 'offline image height assertion failed');
     equal($img.attr('src'), 'data:image/gif;base64,R0lGODdhAQABAIABAMzMzP///ywAAAAAAQABAAACAkQBADs=', 'offline image src assertion failed');
 });
+
+test('jquery plugin - input value substitution', function() {
+    var $fixture = $('#qunit-fixture');
+    $fixture.html('<input class="lorem_s" value="before ipsum"/>').ipsum();
+    var inputValue = $fixture.find('input').val();
+    notEqual(inputValue, 'before ipsum', 'lorem_s input substitution failed');
+    ok(inputValue.length > 0, 'lorem_s input substitution failed');
+});

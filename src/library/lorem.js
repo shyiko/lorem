@@ -294,7 +294,7 @@
         if (cls) {
             var lorem = ipsum(cls, options);
             if (lorem.html) {
-                $el.html(lorem.html);
+                $el[$el.is('input') ? 'val' : 'html'](lorem.html);
             }
             if (!$.isEmptyObject(lorem.attributes)) {
                 $el.attr(lorem.attributes);
