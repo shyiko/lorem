@@ -75,28 +75,35 @@ var paragraphAsAString = lorem.ipsum('lorem_p');
 
 ### Options
 
-    Defaults:
+Defaults:
+
+```js
+{
+    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod <TRUNCATED>' +
+          'See lorem.js for complete value',
+    /* used to tokenize text */          
+    wordDelimiter: /\s|[,.]/, 
+    numberOfSentencesPerParagraph: {min: 4, max: 7},
+    numberOfWordsPerSentence: {min: 4, max: 9},
+    imageURL: 'http://placehold.it/${w}x${h}',
+    /* unsupported under IE<8 */
+    offlineImage: 'data:image/gif;base64,R0lGODdhAQABAIABAMzMzP///ywAAAAAAQABAAACAkQBADs=', 
+    /* indicates whether to use offlineImage instead of imageURL */
+    useOfflineImage: false, 
+    prefix: 'lorem_',
+    /* optional. automatically added by lorem to all affected DOM elements */
+    markerClass: 'lorem-marker'
+}
+```
     
-    {
-        text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod <TRUNCATED>' +
-              'See lorem.js for complete value',
-        wordDelimiter: /\s|[,.]/, // used to tokenize text
-        numberOfSentencesPerParagraph: {min: 4, max: 7},
-        numberOfWordsPerSentence: {min: 4, max: 9},
-        imageURL: 'http://placehold.it/${w}x${h}',
-        offlineImage: 'data:image/gif;base64,R0lGODdhAQABAIABAMzMzP///ywAAAAAAQABAAACAkQBADs=', // unsupported under IE<8
-        useOfflineImage: false, // enabling this option will result in offlineImage being used instead of imageURL
-        prefix: 'lorem_',
-        markerClass: 'lorem-marker' // optional. added to all lorem-classified DOM elements
-    }
-    
-    Defaults can be overridden either globally:
-
-        lorem.overrideDefaults(options) // e.g. lorem.overrideDefaults({ prefix: 'custom_prefix_' })
-
-    or per-request:
-
-        $('container').ipsum({ prefix: 'custom_prefix_' }); // lorem.ipsum(className, options) works as well
+Defaults can be overridden either globally:
+```js    
+lorem.overrideDefaults(options) // e.g. lorem.overrideDefaults({ prefix: 'custom_prefix_' })
+```
+or per-request:
+```js
+$('container').ipsum({ prefix: 'custom_prefix_' }); // lorem.ipsum(className, options) works as well
+```
 
 ## History
 
