@@ -64,14 +64,17 @@ var paragraphAsAString = lorem.ipsum('lorem_p');
     <lorem class prefix>_w[<number>]
     <lorem class prefix>_i<width>[x<height>]
 
-    Examples (assuming default options):
-        lorem_p # single paragraph, same as lorem_p1
-        lorem_p2 # two paragraphs
-        lorem_s # single sentence, same as lorem_s1
-        lorem_s3 # three sentences
-        lorem_w # single word, same as lorem_w1
-        lorem_w4 # four words
-        lorem_i300x100 # 300x100 image
+Examples (assuming default options):
+
+```sh
+lorem_p # single paragraph, same as lorem_p1
+lorem_p2 # two paragraphs
+lorem_s # single sentence, same as lorem_s1
+lorem_s3 # three sentences
+lorem_w # single word, same as lorem_w1
+lorem_w4 # four words
+lorem_i300x100 # 300x100 image
+```
 
 ### Options
 
