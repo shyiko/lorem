@@ -13,41 +13,47 @@ In a nutshell, lorem does the following:
 
 ### Plain-Old &lt;script/&gt;
 
-    <div id="container">
-        <p>Generated using JQuery plugin:</p>
-        <span class="lorem_s">
-            <!-- expecting one sentence here -->
-        </span>
-        <div class="lorem_p2" style="background-color: black; color: white">
-            <!-- expecting two paragraphs here -->
-        </div>
-        <!-- expecting image below -->
-        <img class="lorem_i256x46"/>
+```html
+<div id="container">
+    <p>Generated using JQuery plugin:</p>
+    <span class="lorem_s">
+        <!-- expecting one sentence here -->
+    </span>
+    <div class="lorem_p2" style="background-color: black; color: white">
+        <!-- expecting two paragraphs here -->
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script src="https://raw.github.com/shyiko/lorem/master/src/library/lorem.js"></script>
-    <script>
-        (function($) {
-            $('#container').ipsum();
-            $(document.body).append('Generated not using JQuery plugin: "' + lorem.ipsum('lorem_w') + '"');
-        }(jQuery));
-    </script>
+    <!-- expecting image below -->
+    <img class="lorem_i256x46"/>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="https://raw.github.com/shyiko/lorem/master/src/library/lorem.js"></script>
+<script>
+    (function($) {
+        $('#container').ipsum();
+        $(document.body).append('Generated not using JQuery plugin: "' + lorem.ipsum('lorem_w') + '"');
+    }(jQuery));
+</script>
+```
 
 > Live demo: http://jsfiddle.net/shyiko/x8KAv
 
 ### Require.js
 
-    require(['lorem'], function(lorem) {
-        var paragraphAsAString = lorem.ipsum('lorem_p');
-        ...
-    });
+```js
+require(['lorem'], function(lorem) {
+    var paragraphAsAString = lorem.ipsum('lorem_p');
+    ...
+});
+```    
 
 ### Node.js
 Install the module with: `npm install lorem`
 
-    var lorem = require('lorem');
-    ...
-    var paragraphAsAString = lorem.ipsum('lorem_p');
+```js
+var lorem = require('lorem');
+...
+var paragraphAsAString = lorem.ipsum('lorem_p');
+```    
 
 ## Documentation
 
@@ -58,39 +64,49 @@ Install the module with: `npm install lorem`
     <lorem class prefix>_w[<number>]
     <lorem class prefix>_i<width>[x<height>]
 
-    Examples (assuming default options):
-        lorem_p # single paragraph, same as lorem_p1
-        lorem_p2 # two paragraphs
-        lorem_s # single sentence, same as lorem_s1
-        lorem_s3 # three sentences
-        lorem_w # single word, same as lorem_w1
-        lorem_w4 # four words
-        lorem_i300x100 # 300x100 image
+Examples (assuming default options):
+
+```sh
+lorem_p # single paragraph, same as lorem_p1
+lorem_p2 # two paragraphs
+lorem_s # single sentence, same as lorem_s1
+lorem_s3 # three sentences
+lorem_w # single word, same as lorem_w1
+lorem_w4 # four words
+lorem_i300x100 # 300x100 image
+```
 
 ### Options
 
-    Defaults:
+Defaults:
 
-    {
-        text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod <TRUNCATED>' +
-              'See lorem.js for complete value',
-        wordDelimiter: /\s|[,.]/, // used to tokenize text
-        numberOfSentencesPerParagraph: {min: 4, max: 7},
-        numberOfWordsPerSentence: {min: 4, max: 9},
-        imageURL: 'http://placehold.it/${w}x${h}',
-        offlineImage: 'data:image/gif;base64,R0lGODdhAQABAIABAMzMzP///ywAAAAAAQABAAACAkQBADs=', // unsupported under IE<8
-        useOfflineImage: false, // enabling this option will result in offlineImage being used instead of imageURL
-        prefix: 'lorem_',
-        markerClass: 'lorem-marker' // optional. added to all lorem-classified DOM elements
-    }
-
-    Defaults can be overridden either globally:
-
-        lorem.overrideDefaults(options) // e.g. lorem.overrideDefaults({ prefix: 'custom_prefix_' })
-
-    or per-request:
-
-        $('container').ipsum({ prefix: 'custom_prefix_' }); // lorem.ipsum(className, options) works as well
+```js
+{
+    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod <TRUNCATED>' +
+          'See lorem.js for complete value',
+    /* used to tokenize text */          
+    wordDelimiter: /\s|[,.]/, 
+    numberOfSentencesPerParagraph: {min: 4, max: 7},
+    numberOfWordsPerSentence: {min: 4, max: 9},
+    imageURL: 'http://placehold.it/${w}x${h}',
+    /* unsupported under IE<8 */
+    offlineImage: 'data:image/gif;base64,R0lGODdhAQABAIABAMzMzP///ywAAAAAAQABAAACAkQBADs=', 
+    /* indicates whether to use offlineImage instead of imageURL */
+    useOfflineImage: false, 
+    prefix: 'lorem_',
+    /* optional. automatically added by lorem to all affected DOM elements */
+    markerClass: 'lorem-marker'
+}
+```
+    
+Defaults can be overridden either globally:
+```js    
+lorem.overrideDefaults(options) // e.g. lorem.overrideDefaults({ prefix: 'custom_prefix_' })
+```
+or per-request:
+```js
+$('container').ipsum({ prefix: 'custom_prefix_' }); // lorem.ipsum(className, options) works as well
+```
 
 ## History
 
