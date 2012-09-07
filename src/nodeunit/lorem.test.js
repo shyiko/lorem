@@ -19,6 +19,9 @@ exports['ipsum'] = {
         Math.random = this.mathRandom;
         callback();
     },
+    'w': function(test) {
+        testIpsum(test, 'w', 'et');
+    },
     'lorem_w': function(test) {
         testIpsum(test, 'lorem_w', 'et');
     },
@@ -30,6 +33,9 @@ exports['ipsum'] = {
     },
     'lorem_w2': function(test) {
         testIpsum(test, 'lorem_w2', 'et nisi');
+    },
+    's$4': function(test) {
+        testIpsum(test, 's$4', 'Nisi');
     },
     'lorem_s': function(test) {
         testIpsum(test, 'lorem_s', 'Nisi velit in et et.');

@@ -148,7 +148,11 @@
         /**
          * {String} class to add to all lorem-recognized elements. optional
          */
-        markerClass: 'lorem-marker'
+        markerClass: 'lorem-marker',
+        /**
+         * {String} data- attribute to apply lorem to
+         */
+        dataAttribute: 'lorem'
     };
 
     defaults._tokens = tokenize(defaults.text, defaults.wordDelimiter);
@@ -205,9 +209,6 @@
      * @return {*} undefined if cls doesn't start with lorem prefix, {html: value, attributes: {...}} otherwise
      */
     function ipsum(cls, options) {
-        if (cls.substr(0, options.prefix.length) !== options.prefix) {
-            return; // cls doesn't start with lorem prefix
-        }
         var op = options.numberOfSentencesPerParagraph,
             os = options.numberOfWordsPerSentence,
             tokenFn = (function() {
@@ -219,7 +220,8 @@
             cutOffFn = function(string, limit) {
                 return limit > -1 ? string.substr(0, limit) : string;
             },
-            suffix = cls.substr(options.prefix.length),
+            suffix = cls.substr(0, options.prefix.length) === options.prefix ? // left in order to save backward-compatibility with releases <= 0.3.0
+                cls.substr(options.prefix.length) : cls,
             result = { attributes: {} };
         switch(suffix[0]) {
             case 'p': // paragraph p[<number>[_<minimum number of sentences>[x<maximum number of sentences>]]]
@@ -310,7 +312,7 @@
      * @param {Object} options
      */
     function applyIpsumToElement($el, options) {
-        var cls = findFirstClassWithAPrefix($el, options.prefix);
+        var cls = $el.attr('data-' + options.dataAttribute) || findFirstClassWithAPrefix($el, options.prefix);
         if (cls) {
             var lorem = ipsum(cls, options);
             if (lorem.html) {
@@ -334,7 +336,7 @@
         $.fn.ipsum = function(options) {
             var o = mergeWithDefaultOnes(options);
             return this.each(function() {
-                var $this = $(this), $els = $('[class*="' + o.prefix + '"]', $this);
+                var $this = $(this), $els = $('[class*="' + o.prefix + '"],[data-' + o.dataAttribute + ']', $this);
                 applyIpsumToElement($this, o);
                 $els.each(function(index, el) {
                     applyIpsumToElement($(el), o);

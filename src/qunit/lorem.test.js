@@ -55,3 +55,18 @@ test('jquery plugin - input value substitution', function() {
     notEqual(inputValue, 'before ipsum', 'lorem_s input substitution failed');
     ok(inputValue.length > 0, 'lorem_s input substitution failed');
 });
+
+test('jquery plugin - data-lorem substitution', function() {
+    var $fixture = $('#qunit-fixture');
+    $fixture.html('<input value="before ipsum" data-lorem="w2"/>').ipsum({ text: 'a' });
+    var inputValue = $fixture.find('input').val();
+    equal(inputValue, 'a a', 'lorem_s input substitution failed');
+});
+
+test('jquery plugin - data-lorem over lorem class substitution', function() {
+    var $fixture = $('#qunit-fixture');
+    $fixture.html('<input class="lorem_s" value="before ipsum" data-lorem="w2"/>').ipsum({ text: 'a' });
+    var inputValue = $fixture.find('input').val();
+    equal(inputValue, 'a a', 'lorem_s input substitution failed');
+});
+
