@@ -78,7 +78,7 @@
 
     /**
      * @param {String} string string to parse
-     * @param {*} defaultValueOnTheLeft {this value}>x{indifferent}
+     * @param {*} defaultValueOnTheLeft {this value}x{indifferent}
      * @param {*} defaultValueOnTheRight {indifferent}x{this value}
      * @return {Object} {left: valueOnTheLeft, right: valueOnTheRight}
      */
@@ -95,6 +95,21 @@
             }
         }
         return result;
+    }
+
+    /**
+     * @param string string to parse
+     * @return {Number} maximum number of characters, -1 if not provided
+     */
+    function extractMaximumNumberOfCharacters(string) {
+        var extensionIndex = string.indexOf('$');
+        if (extensionIndex > -1) {
+            var number = parseInt(string.substr(extensionIndex + 1), 10);
+            if (!isNaN(number) && number > 0) {
+                return number;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -201,6 +216,9 @@
                     return tokens[between(0, numberOfTokens - 1)];
                 };
             }()),
+            cutOffFn = function(string, limit) {
+                return limit > -1 ? string.substr(0, limit) : string;
+            },
             suffix = cls.substr(options.prefix.length),
             result = { attributes: {} };
         switch(suffix[0]) {
@@ -216,18 +234,20 @@
                     };
                 result.html = join(array(paragraphFn, numberOfParagraphs), '<p>', '</p>');
                 break;
-            case 's': // sentence s[<number>[_<minimum number of words>[x<maximum number of words>]]]
+            case 's': // sentence s[<number>[_<minimum number of words>[x<maximum number of words>]]][$<maximum number of characters>]
                 var numberOfSentences = extractNumber(suffix, 1),
                     sd = extractExtension(suffix, os.min, os.max),
+                    sl = extractMaximumNumberOfCharacters(suffix),
                     sentenceFnS = function() {
                         return capitalize(array(tokenFn, between(sd.left, sd.right)).join(' ')
                             .concat('.'));
                     };
-                result.html = array(sentenceFnS, numberOfSentences).join(' ');
+                result.html = cutOffFn(array(sentenceFnS, numberOfSentences).join(' '), sl);
                 break;
-            case 'w': // word w[<number>]
-                var numberOfWords = extractNumber(suffix, 1);
-                result.html = array(tokenFn, numberOfWords).join(' ');
+            case 'w': // word w[<number>][$<maximum number of characters>]
+                var numberOfWords = extractNumber(suffix, 1),
+                    wl = extractMaximumNumberOfCharacters(suffix);
+                result.html = cutOffFn(array(tokenFn, numberOfWords).join(' '), wl);
                 break;
             case 'i': // image<width>x<height>
                 var indexOfDelimiter = suffix.indexOf('x');

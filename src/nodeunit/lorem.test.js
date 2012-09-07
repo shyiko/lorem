@@ -25,6 +25,9 @@ exports['ipsum'] = {
     'lorem_w1': function(test) {
         testIpsum(test, 'lorem_w1', 'et');
     },
+    'lorem_w4$5': function(test) {
+        testIpsum(test, 'lorem_w4$5', 'et ni');
+    },
     'lorem_w2': function(test) {
         testIpsum(test, 'lorem_w2', 'et nisi');
     },
@@ -36,6 +39,15 @@ exports['ipsum'] = {
     },
     'lorem_s2': function(test) {
         testIpsum(test, 'lorem_s2', 'Nisi velit in et et. Et impedit repellendus lorem et nisi velit in.');
+    },
+    'lorem_s$1': function(test) {
+        testIpsum(test, 'lorem_s2$1', 'N');
+    },
+    'lorem_s$10': function(test) {
+        testIpsum(test, 'lorem_s2$10', 'Nisi velit');
+    },
+    'lorem_s$': function(test) {
+        testIpsum(test, 'lorem_s2$x', 'Nisi velit in et et. Et impedit repellendus lorem et nisi velit in.');
     },
     'lorem_p': function(test) {
         testIpsum(test, 'lorem_p', '<p>Velit in et et deserunt. Impedit repellendus lorem et nisi velit in et. ' +
