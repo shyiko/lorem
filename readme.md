@@ -2,7 +2,7 @@
 
 Filler text generator compatible with Node.js, Require.js and plain-old &lt;script/&gt;.<br/>
 
-Even though JQuery is optional, including it before lorem will allow lorem JQuery plugin to be automatically registered,
+Even though JQuery (>= 1.6) is optional, including it before lorem will allow lorem JQuery plugin to be automatically registered,
 making ipsum() available for $(selector) objects (which is exactly what is needed most of the time).
 
 In a nutshell, lorem does the following:
@@ -19,7 +19,7 @@ In a nutshell, lorem does the following:
     <span class="lorem_s">
         <!-- expecting one sentence here -->
     </span>
-    <div class="lorem_p2" style="background-color: black; color: white">
+    <div style="background-color: black; color: white" data-lorem="p2">
         <!-- expecting two paragraphs here -->
     </div>
     <!-- expecting image below -->
@@ -30,7 +30,7 @@ In a nutshell, lorem does the following:
 <script>
     (function($) {
         $('#container').ipsum();
-        $(document.body).append('Generated not using JQuery plugin: "' + lorem.ipsum('lorem_w') + '"');
+        $(document.body).append('Generated not using JQuery plugin: "' + lorem.ipsum('w') + '"');
     }(jQuery));
 </script>
 ```
@@ -41,7 +41,7 @@ In a nutshell, lorem does the following:
 
 ```js
 require(['lorem'], function(lorem) {
-    var paragraphAsAString = lorem.ipsum('lorem_p');
+    var paragraphAsAString = lorem.ipsum('p');
     ...
 });
 ```    
@@ -52,7 +52,7 @@ Install the module with: `npm install lorem`
 ```js
 var lorem = require('lorem');
 ...
-var paragraphAsAString = lorem.ipsum('lorem_p');
+var paragraphAsAString = lorem.ipsum('p');
 ```    
 
 ## Documentation
@@ -60,8 +60,8 @@ var paragraphAsAString = lorem.ipsum('lorem_p');
 ### Classes
 
     <lorem class prefix>_p[<number>[_<minimum number of sentences>[x<maximum number of sentences>]]]
-    <lorem class prefix>_s[<number>[_<minimum number of words>[x<maximum number of words>]]]
-    <lorem class prefix>_w[<number>]
+    <lorem class prefix>_s[<number>[_<minimum number of words>[x<maximum number of words>]]][$<maximum number of characters>]
+    <lorem class prefix>_w[<number>][$<maximum number of characters>]
     <lorem class prefix>_i<width>[x<height>]
 
 Examples (assuming default options):
@@ -70,8 +70,8 @@ Examples (assuming default options):
 lorem_p # single paragraph, same as lorem_p1
 lorem_p2 # two paragraphs
 lorem_s # single sentence, same as lorem_s1
-lorem_s3 # three sentences
-lorem_w # single word, same as lorem_w1
+lorem_s3$120 # three sentences, with maximum overall length <= 120 characters
+lorem_w$5 # single word, maximum 5 characters long. same as lorem_w1$3.
 lorem_w4 # four words
 lorem_i300x100 # 300x100 image
 ```
@@ -95,7 +95,9 @@ Defaults:
     useOfflineImage: false, 
     prefix: 'lorem_',
     /* optional. automatically added by lorem to all affected DOM elements */
-    markerClass: 'lorem-marker'
+    markerClass: 'lorem-marker',
+    /* data-* attribute to apply lorem to */
+    dataAttribute: 'lorem'
 }
 ```
     
