@@ -110,17 +110,10 @@ or per-request:
 $('container').ipsum({ prefix: 'custom_prefix_' }); // lorem.ipsum(className, options) works as well
 ```
 
-## History
-
-One of the prototypes I worked on (single-page application with dozens of nested views wired up with require.js and
-knockout.js) had lot of filler text all over the pages (some of it was retrieved from Node.js/Express-based server).
-Everything was great up to the point when amount of such payload became unbearable making it hard to navigate through
-the source code. As the result, github got lorem and I got rid of the mess inside HTML/template files ^_^.
-
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style.<br/>
 Ideally add unit tests for any new or changed functionality.<br/>
-Lint and test your code using [grunt](https://github.com/cowboy/grunt).
+Executing '[grunt](https://github.com/cowboy/grunt)' within project directory should not produce any lint or test errors.
 
 ## License
 Copyright (c) 2012 Stanley Shyiko
