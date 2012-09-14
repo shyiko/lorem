@@ -1,5 +1,5 @@
 /**
- * Lorem - 0.3.0 - JQuery-based Lorem Ipsum provider
+ * Lorem - 0.4.0 - JQuery-based Lorem Ipsum provider
  *
  * https://github.com/shyiko/lorem
  *
