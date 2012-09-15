@@ -33,5 +33,15 @@
     "scripts": {
         "test": "grunt travis --verbose"
     },
-    "keywords": ["lorem", "ipsum", "filler", "placeholder", "jquery"]
+    "keywords": ["lorem", "ipsum", "filler", "placeholder", "jquery"],
+    "jam": {
+        "main": "src/library/lorem.js",
+        "browser": {
+            "include": ["src/library/lorem.js"]
+        },
+        "dependencies": {
+            "jquery": ">=1.6.0"
+        }
+    },
+    "categories": ["UI"]
 }
