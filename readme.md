@@ -7,9 +7,12 @@ making ipsum() available for $(selector) objects (which is exactly what is neede
 
 In a nutshell, lorem does the following:
 - locates all tags (within $(selector)) with class attribute containing lorem_&lt;options&gt;
-- replaces html (src in case of &lt;img/&gt;) within such tags according to &lt;options&gt;
+- replaces html (src in case of &lt;img/&gt;) within such tags according to the &lt;options&gt;
 
-## Getting Started
+## Usage
+
+On the client-side, lorem can be either included using a [direct link](http://cloud.github.com/downloads/shyiko/lorem/lorem-0.4.0.js)
+or can be installed with [bower](http://twitter.github.com/bower) ('bower install lorem') or [jam](https://github.com/caolan/jam) ('jam install lorem') package managers.
 
 ### Plain-Old &lt;script/&gt;
 
@@ -53,11 +56,9 @@ Install the module with: `npm install lorem`
 var lorem = require('lorem');
 ...
 var paragraphAsAString = lorem.ipsum('p');
-```    
+```
 
-## Documentation
-
-### Classes
+## Classes
 
     <lorem class prefix>_p[<number>[_<minimum number of sentences>[x<maximum number of sentences>]]]
     <lorem class prefix>_s[<number>[_<minimum number of words>[x<maximum number of words>]]][$<maximum number of characters>]
@@ -76,7 +77,7 @@ lorem_w4 # four words
 lorem_i300x100 # 300x100 image
 ```
 
-### Options
+## Options
 
 Defaults:
 
