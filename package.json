@@ -41,5 +41,6 @@
             "jquery": ">=1.6.0"
         }
     },
+    "github": "https://github.com/shyiko/lorem",
     "categories": ["UI"]
 }
